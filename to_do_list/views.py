@@ -74,4 +74,3 @@ class UpdateTagView(generic.UpdateView):
 class DeleteTadView(generic.DeleteView):
     model = Tag
     success_url = reverse_lazy("to_do_list:tag-list")
-
