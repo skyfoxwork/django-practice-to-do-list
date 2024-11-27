@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 
-from to_do_list.models import Task
+from to_do_list.models import Task, Tag
 
 
 def index(request):
@@ -53,3 +53,25 @@ def undo_task(request, pk):
         task.save()
 
     return redirect("to_do_list:index")
+
+
+class TegListView(generic.ListView):
+    model = Tag
+
+
+class AddTagView(generic.CreateView):
+    model = Tag
+    fields = ("name",)
+    success_url = reverse_lazy("to_do_list:teg-list")
+
+
+class UpdateTagView(generic.UpdateView):
+    model = Tag
+    fields = ("name",)
+    success_url = reverse_lazy("to_do_list:teg-list")
+
+
+class DeleteTadView(generic.DeleteView):
+    model = Tag
+    success_url = reverse_lazy("to_do_list:teg-list")
+

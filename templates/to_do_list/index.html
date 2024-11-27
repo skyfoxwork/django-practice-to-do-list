@@ -33,22 +33,22 @@
           </ul>
 
         </li>
+
         <a href="{% url "to_do_list:update-task" pk=task.id %}">update</a>
         <a href="{% url "to_do_list:delete-task" pk=task.id %}">delete</a>
 
         {% if task.done %}
           <form action="{% url 'to_do_list:complete-task' pk=task.id %}" method="post" class="link-to-page">
             {% csrf_token %}
-            <input class="btn btn-success" type="submit" value="Undo">
-
+            <input class="btn btn-secondary" type="submit" value="Undo">
           </form>
             {% else %}
           <form action="{% url 'to_do_list:undo-task' pk=task.id %}" method="post" class="link-to-page">
             {% csrf_token %}
-           <input class="btn btn-danger" type="submit" value="Complete">
+           <input class="btn btn-success" type="submit" value="Complete">
           </form>
         {% endif %}
-
+        <p></p>
       {% endfor %}
     </ul>
   {% else %}
