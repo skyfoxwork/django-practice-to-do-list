@@ -62,16 +62,16 @@ class TegListView(generic.ListView):
 class AddTagView(generic.CreateView):
     model = Tag
     fields = ("name",)
-    success_url = reverse_lazy("to_do_list:teg-list")
+    success_url = reverse_lazy("to_do_list:tag-list")
 
 
 class UpdateTagView(generic.UpdateView):
     model = Tag
     fields = ("name",)
-    success_url = reverse_lazy("to_do_list:teg-list")
+    success_url = reverse_lazy("to_do_list:tag-list")
 
 
 class DeleteTadView(generic.DeleteView):
     model = Tag
-    success_url = reverse_lazy("to_do_list:teg-list")
+    success_url = reverse_lazy("to_do_list:tag-list")
 
