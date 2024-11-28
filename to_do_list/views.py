@@ -6,7 +6,7 @@ from to_do_list.models import Task, Tag
 
 
 def index(request):
-    task_list = Task.objects.all()
+    task_list = Task.objects.all().prefetch_related("tags")
     context = {
         "task_list": task_list
     }
@@ -15,7 +15,8 @@ def index(request):
 
 class TaskListView(generic.ListView):
     model = Task
-    queryset = Task.objects.all().select_related("tags")
+    queryset = Task.objects.all().prefetch_related("tags")
+    template_name = "to_do_list/index.html"
 
 
 class AddTaskView(generic.CreateView):
@@ -38,8 +39,6 @@ class DeleteTaskView(generic.DeleteView):
 def complete_task(request, pk):
     if request.method == "POST":
         task = get_object_or_404(Task, pk=pk)
-        print(task.content)
-        print(task.done)
         task.done = False
         task.save()
 

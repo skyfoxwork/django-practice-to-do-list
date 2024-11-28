@@ -8,17 +8,31 @@
     </a>
   </h1>
 
-  {% if tag_list %}
-    <ul>
+    {% if tag_list %}
+    <table class="table">
+      <tr>
+        <th>Name</th>
+        <th>Update</th>
+        <th>Delete</th>
+      </tr>
+
       {% for tag in tag_list %}
-        <li>
-          {{ tag.name }}
-        </li>
-        <a href="{% url "to_do_list:update-tag" pk=tag.id  %}">update</a>
-        <a href="{% url "to_do_list:delete-tag" pk=tag.id  %}">delete</a>
+        <tr>
+          <td>
+            <h5>"{{ tag.name }}"</h5>
+          </td>
+          <td>
+            <a class="btn btn-secondary" href="{% url "to_do_list:update-tag" pk=tag.id %}">UPDATE</a>
+          </td>
+          <td>
+            <a class="btn btn-danger" href="{% url "to_do_list:delete-tag" pk=tag.id  %}">DELETE</a>
+          </td>
+        </tr>
       {% endfor %}
-    </ul>
+    </table>
+
   {% else %}
-    <p>There are no tags</p>
+      <p>There are no tags</p>
   {% endif %}
+
 {% endblock %}

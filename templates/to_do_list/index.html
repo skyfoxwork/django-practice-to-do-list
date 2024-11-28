@@ -9,11 +9,10 @@
   </h1>
 
   {% if task_list %}
-    <ul>
+    <ul class="list-group">
       {% for task in task_list %}
-        <li>
+        <li class="list-group-item list-group-item-info">
           <h5>{{ task.content }}</h5>
-          <p>Created: {{ task.datetime }}</p>
 
           {% if task.done %}
             <p class="text-success">Done</p>
@@ -21,36 +20,42 @@
             <p class="text-danger">Not done</p>
           {% endif %}
 
+          <div>Created: {{ task.datetime }}</div>
+
           {% if task.deadline %}
-            <p>deadline: {{ task.deadline }}</p>
+            <div class="text-danger">Deadline: {{ task.deadline }}</div>
           {% endif %}
 
-          <ul>
+          <div>
             Tags:
-            {% for ts in task.tags.all %}
-              <li>{{ ts.name }}</li>
+            {% for tag in task.tags.all %}
+              {{ tag.name }}
             {% endfor %}
-          </ul>
+          </div>
+          <br>
+
+          <a href="{% url 'to_do_list:update-task' pk=task.id %}">Update</a>
+          <a href="{% url 'to_do_list:delete-task' pk=task.id %}">Delete</a>
+
+          {% if task.done %}
+            <form action="{% url 'to_do_list:complete-task' pk=task.id %}" method="post" class="link-to-page">
+              {% csrf_token %}
+              <br>
+              <input class="btn btn-secondary" type="submit" value="Undo">
+            </form>
+              {% else %}
+            <form action="{% url 'to_do_list:undo-task' pk=task.id %}" method="post" class="link-to-page">
+              {% csrf_token %}
+              <br>
+             <input class="btn btn-success" type="submit" value="Complete">
+            </form>
+          {% endif %}
 
         </li>
-
-        <a href="{% url "to_do_list:update-task" pk=task.id %}">update</a>
-        <a href="{% url "to_do_list:delete-task" pk=task.id %}">delete</a>
-
-        {% if task.done %}
-          <form action="{% url 'to_do_list:complete-task' pk=task.id %}" method="post" class="link-to-page">
-            {% csrf_token %}
-            <input class="btn btn-secondary" type="submit" value="Undo">
-          </form>
-            {% else %}
-          <form action="{% url 'to_do_list:undo-task' pk=task.id %}" method="post" class="link-to-page">
-            {% csrf_token %}
-           <input class="btn btn-success" type="submit" value="Complete">
-          </form>
-        {% endif %}
-        <p></p>
+        <br>
       {% endfor %}
     </ul>
+
   {% else %}
     <p>There are no task</p>
   {% endif %}
